@@ -50,15 +50,15 @@ class UserList extends React.Component{
                     <td>{user.id}</td>
                     <td>{user.username}</td>
                     <td>{user.email}</td>
-                    <td>{user.phone}</td>
-                    <td>{new Date(user.createTime).toLocaleString()}</td>
+                    <td>{user.role === 1 ? "普通用户" : "管理员"}</td>
+                    <td>{user.create_time}</td>
                 </tr>
             );
         });
        return (
             <div id="page-wrapper">
                 <PageTitle title="用户列表"/>
-                <TableList tableHeads={['ID', '用户名', '邮箱', '电话', '注册时间']}>
+                <TableList tableHeads={['ID', '用户名', '邮箱', '类型', '注册时间']}>
                     {listBody}
                 </TableList>
                 <Pagination current={this.state.pageNum} 

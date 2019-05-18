@@ -7,7 +7,7 @@ class User{
 	//登录
 	login(loginInfo){
 		return _lucky.request({
-			url:'/manage/user/login.do',
+			url:'/manage/login/',
 			type:"post",
 			data:loginInfo
 		})
@@ -43,7 +43,7 @@ class User{
 	//退出登录
 	logout(){
 		return _lucky.request({
-			url : '/user/logout.do',
+			url : '/manage/logout/',
 			type : 'post'
 		})
 	}
@@ -51,7 +51,7 @@ class User{
 	// 获取用户列表
 	getUserList(pageNum){
 		return _lucky.request({
-			url:'/manage/user/list.do',
+			url:'/manage/userlist/',
 			type:'post',
 			data:{
 				pageNum : pageNum, 

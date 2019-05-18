@@ -6,7 +6,7 @@ class ListSearch extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
-			searchType : 'productId',
+			searchType : 'ti',
 			searchKeyword : ''
 		}
 	}
@@ -18,10 +18,15 @@ class ListSearch extends React.Component{
 	}
 	//数据发生变化的时候
 	onValueChange(e){
-		let name = e.target.name;
 		let value = e.target.value;
 		this.setState({
-			[name] : value
+			searchKeyword : value,
+		})
+	}
+	onTypeChange(e) {
+		let value = e.target.value;
+		this.setState({
+			searchType : value,
 		})
 	}
 	//点击搜索按钮的时候
@@ -38,9 +43,10 @@ class ListSearch extends React.Component{
 						<div className="form-group">
 							<select name="searchType" 
 								className="form-control"
-								onChange={this.onValueChange.bind(this)} >
-								<option value="productId">按商品ID查询</option>
-								<option value="productName">按商品名称查询</option>
+								onChange={this.onTypeChange.bind(this)} >
+								<option value="ti">TI</option>
+								<option value="costume">服装</option>
+								<option value="textile">纺织</option>
 							</select>
 						</div>
 						<div className="form-group">

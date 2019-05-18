@@ -11,7 +11,7 @@ class Statistic extends React.Component{
 	//首页数据统计
 	getHomeCount(){
 		return _lucky.request({
-			url:'/manage/statistic/base_count.do'
+			url:'/manage/statistic/'
 		})
 	}
 }

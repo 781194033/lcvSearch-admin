@@ -2,13 +2,12 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import LuckyUtil from 'util/lucky.jsx';
 import Product from 'service/product-service.jsx';
-
 import PageTitle from 'component/page-title/index.jsx';
 import ListSearch from './index-list-search.jsx';
 import TableList from 'util/table-list/index.jsx';
 import Pagination from 'util/pagination/index.jsx';
+import { Modal } from 'antd';
 
-import CategorySelector from './category-selector.jsx';
 
 
 const _lucky = new LuckyUtil();
@@ -22,23 +21,47 @@ class ProductList extends React.Component{
 		this.state={
 			pageNum : 1,
 			list:[],
-			listType:'list'
+			total:0,
+			visible:false,
+			row_data:{}
 		}
 	}
 	//组件加载完成请求列表（发送请求）
 	componentDidMount(){
 		this.loadProductList();
 	}
+	handleDelete(data) {
+		if (window.confirm("确定删除吗？")) {
+			_product.deletePatent({"id":data._id,"index":data._index}).then(
+				//请求成功
+				(res) => {
+					alert("删除成功")
+					this.loadProductList();	
+				},
+				//请求失败
+				(errMsg) => {
+					alert(errMsg)
+				}
+			)
+		}
+		
+	}
+	handleView(data) {
+		this.showModal()
+		this.setState({row_data:data})
+	}
+	showModal() {
+		this.setState({visible:true})
+	}
+	hideModal() {
+		this.setState({visible:false})
+	}
 	//加载商品列表
 	loadProductList(){
 		let listParam={};
-		listParam.listType=this.state.listType;
 		listParam.pageNum=this.state.pageNum;
-		//如果是搜索的话，需要传入搜索类型和搜素的关键字
-		if(this.state.listType === 'search'){
-			listParam.searchType=this.state.searchType;
-			listParam.keyword=this.state.searchKeyword;
-		}
+		listParam.searchType=this.state.searchType || '';
+		listParam.searchKeyword=this.state.searchKeyword || '';
 		//请求接口
 		_product.getProductList(listParam).then(
 			//请求成功
@@ -55,13 +78,13 @@ class ProductList extends React.Component{
 			}
 		)
 	}
+	handleCancel(){
+		this.hideModal()
+	}
 	//搜索
 	onSearch(searchType,searchKeyword){
-		//如果输入的关键字为空listType = list 不为空 listType=search
-		let listType = searchKeyword === '' ? 'list' : 'search';
 		//搜索改变state后重新请求数据
 		this.setState({
-			listType : listType,
 			pageNum : 1,
 			searchType : searchType,
 			searchKeyword : searchKeyword
@@ -77,72 +100,58 @@ class ProductList extends React.Component{
 			this.loadProductList()
 		})
 	}
-	//改变商品状态 上架 下架
-	onSetProductStatus(e,productId,currentStatus){
-		let newStatus = currentStatus == 1 ? 2 : 1;
-		let confirmTips = currentStatus == 1 ? '确定要下架该商品？' : '确定要上架该商品？';
-		if(window.confirm(confirmTips)){
-			//修改商品状态
-			_product.setProductStatus({
-				productId : productId,
-				status : newStatus
-			}).then(
-				//修改成功
-				(res) => {
-					_lucky.successTips(res);
-					this.loadProductList();
-				},
-				//修改失败
-				(errMsg) => {
-					_lucky.errTips(errMsg);
-				}
-			)
-		}
-	}
 	render(){
 		let tableHeads=[
-			{name:'商品ID',width:'10%'},
-			{name:'商品信息',width:'50%'},
-			{name:'价格',width:'10%'},
-			{name:'状态',width:'15%'},
-			{name:'操作',width:'15%'}
+			{id:'标题',width:'80%'},
+			{id:'操作',width:'20%'}
 		];
 		return(
 			<div id="page-wrapper">
-				<PageTitle title="商品列表">
-					<div className="page-header-right">
-						<Link to="/product/save" className="btn btn-primary">
-							<i className="fa fa-plus"></i>
-							<span>添加商品</span>
-						</Link>
-					</div>
+
+				<PageTitle title="专利列表">
+					
 				</PageTitle>
 				<ListSearch onSearch={(searchType, searchKeyword) => {this.onSearch(searchType, searchKeyword)}}/>
+
 				<TableList tableHeads={tableHeads}>
 					{
 						this.state.list.map((product,index) => {
 							return(
 								<tr key={index}>
-									<td>{product.id}</td>
+									<td>{product['标题']}</td>
 									<td>
-										<p>{product.name}</p>
-										<p>{product.subtitle}</p>
+										<p className="operate">
+											<span onClick={this.handleDelete.bind(this,product)}>删除</span>
+										</p>
+										<p className="operate">
+											<span onClick={this.handleView.bind(this,product)}>查看</span>
+										</p>
 									</td>
-									<td>¥{product.price}</td>
-									<td>
-										<p>{product.status === 1 ? '在售' : '已下架'}</p>
-										<button className="btn btn-xs btn-warning"
-										onClick={(e) => {this.onSetProductStatus(e,product.id,product.status)}} >{product.status === 1 ? '下架' : '上架'}</button>
-									</td>
-								    <td>
-										<Link className="opear" to={`/product/detail/${product.id}`}>详情</Link>
-										<Link className="opear" to={`/product/save/${product.id}`}>编辑</Link>
-								    </td>
 								</tr>
 							)
 						})
 					}
 				</TableList>
+				<Modal
+		          title="详情"
+		          visible={this.state.visible}
+		          onCancel={this.handleCancel.bind(this)}
+		        >
+		          {
+		          	Object.keys(this.state.row_data).map((cur,index) => {
+		          		if (cur != "suggest") {
+		          			var value = this.state.row_data[cur]
+		          			return (
+			          			<div key={index}>
+			          				<label>{cur}:</label>
+			          				<span>{value}</span>
+			          			</div>
+		          			)
+		          		}
+		          		
+		          	})
+		          }
+		        </Modal>
 				<Pagination current={this.state.pageNum}
 					total={this.state.total}
 					onChange={this.onPageNumChange.bind(this)} />

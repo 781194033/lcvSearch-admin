@@ -16,7 +16,7 @@ class Login extends React.Component{
 		}
 	}
 	componentWillMount(){
-		document.title='登录 - Luckyshop-fe';
+		document.title='登录 - LCV SEARCH';
 		document.addEventListener('keyup',(e) => {
 			if(e.keyCode === 13) {
 				this.onSubmit();
@@ -40,7 +40,6 @@ class Login extends React.Component{
 		//如果验证通过
 		if(checkResult.status){
 			_user.login(loginInfo).then((res) => {
-				_lucky.setStorage('userInfo',res);
 				this.props.history.push(this.state.redirect);
 			},(errMsg) => {
 				_lucky.errTips(errMsg);
@@ -55,7 +54,7 @@ class Login extends React.Component{
 		return(
 				<div className="col-md-4 col-md-offset-4">
 					<div className="panel panel-default login-panel">
-						<div className="panel-heading">欢迎登录 - LuckyShop管理系统</div>
+						<div className="panel-heading">欢迎登录 - Lcv Search管理系统</div>
 						<div className="panel-body">
 							<div>
 								<div className="form-group">

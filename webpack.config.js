@@ -1,8 +1,8 @@
 /*
  * @Author: shijie
  * @Date:   2019-01-29 12:26:47
- * @Last Modified by:   shijie
- * @Last Modified time: 2019-02-03 14:47:33
+ * @Last Modified by:   Doctor Mu
+ * @Last Modified time: 2019-05-15 17:40:14
  */
 
 const path = require('path');
@@ -75,6 +75,8 @@ module.exports = {
 	//配置webpack-dev-server
 	devServer: {
 		contentBase: './dist',
+		host:'0.0.0.0',
+		disableHostCheck: true,
 		port: 8020,
 		open: true, //执行webpack-dev-server自动打开浏览器
 		//访问一个页面找不到会返回一个指定页面
@@ -85,11 +87,11 @@ module.exports = {
 		proxy:{
 			//用户登录接口
 			'/manage' : {
-                target: 'http://admintest.happymmall.com',
+                target: 'http://localhost:8000',
                 changeOrigin : true
             },
             '/user/logout.do' : {
-            	target : 'http://admintest.happymmall.com',
+                target: 'http://localhost:8000',
                 changeOrigin : true
             }
 		}
