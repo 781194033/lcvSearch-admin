@@ -7,7 +7,7 @@ class PageTitle extends React.Component{
 	}
 	//使用生命周期。在加载组件的时候把标题替换
 	componentWillMount(){
-		document.title=this.props.title + '- LCV SEARCH';
+		document.title=this.props.title + '- 专利搜索';
 	}
 	render(){
 		return(

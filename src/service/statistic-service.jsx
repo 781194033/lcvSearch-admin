@@ -14,6 +14,12 @@ class Statistic extends React.Component{
 			url:'/manage/statistic/'
 		})
 	}
+
+	getHotWords(){
+		return _lucky.request({
+			url:'/manage/statistic/hotwords'
+		})
+	}
 }
 
 

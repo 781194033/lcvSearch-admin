@@ -21,6 +21,8 @@ import ErrorPage from 'page/error/index.jsx';
 //商品
 import ProductRouter from 'page/product/router.jsx';
 import UserList from 'page/user/index.jsx';
+import HotWords from 'page/hotwords/index.jsx';
+
 import 'antd/dist/antd.css';
 class App extends React.Component{
 	constructor(props){
@@ -34,7 +36,10 @@ class App extends React.Component{
                     <Route exact path="/" component={Home}/>
                     <Route path="/product" component={ProductRouter}/>
                     <Route path="/user/index" component={UserList}/>
+                    <Route path="/hotwords/index" component={HotWords}/>
                     <Redirect exact from="/user" to="/user/index"/>
+                    <Redirect exact from="/hotwords" to="/hotwords/index"/>
+
                     <Redirect exact from="/order" to="/order/index"/>
                     <Route component={ErrorPage}/>
                 </Switch>

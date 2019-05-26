@@ -31,7 +31,7 @@ class TopNav extends React.Component{
 		 return (
             <div className="navbar navbar-default top-navbar">
                 <div className="navbar-header">
-                    <Link className="navbar-brand" to="/"><b>Lcv</b>Search</Link>
+                    <Link className="navbar-brand" to="/"><b>专利</b>搜索</Link>
                 </div>
 
                 <ul className="nav navbar-top-links navbar-right">

@@ -40,6 +40,18 @@ class SideNav extends React.Component{
                                 </li>
                             </ul>
                         </li>
+                        <li className="active">
+                            <Link to="/user">
+                                <i className="fa fa-apple"></i>
+                                <span>搜索热词</span>
+                                <span className="fa arrow"></span>
+                            </Link>
+                            <ul className="nav nav-second-level collapse in">
+                                <li>
+                                    <NavLink to="/hotwords" activeClassName="active-menu">热词列表</NavLink>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
 
                 </div>

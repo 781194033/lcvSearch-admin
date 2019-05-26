@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div>
+        <input type="file" name="file" id="file_upload">
+        <input type="button" value="上传" onclick="FileUpload()">
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<script>
+    function FileUpload() {
+            var form_data = new FormData();
+            var file_info =$( '#file_upload')[0].files[0];
+            form_data.append('file',file_info);
+            //if(file_info==undefined)暂且不许要判断是否有附件
+                //alert('你没有选择任何文件');
+                //return false
+            $.ajax({
+                url:'http://admin.dongcewei.com/manage/product/upload.do',
+                type:'POST',
+                data: form_data,
+                processData: false,  // tell jquery not to process the data
+                contentType: false, // tell jquery not to set contentType
+                success: function(callback) {
+
+                    console.log('ok')
+                }
+            });
+    }
+</script>
+</body>
+</html>
